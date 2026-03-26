@@ -76,10 +76,7 @@ python menu.py
 
 ## 🚀 Possíveis Melhorias
 
-* 💾 Guardar dados em ficheiros (JSON/CSV)
 * 🔗 Sistema de reservas (ligar clientes a aeronaves)
-* 🔐 Sistema de autenticação (login)
-* 🖥️ Interface gráfica (Tkinter)
 
 ---
 
