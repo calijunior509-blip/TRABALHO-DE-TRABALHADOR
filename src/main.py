@@ -1,3 +1,7 @@
+# ==============================
+# main.py
+# menu terminal unificado estilo utilizador
+# ==============================
 
 from passageiros import (
     criar_cliente, listar_clientes, buscar_cliente,
@@ -9,78 +13,153 @@ from aeronaves import (
     atualizar_aeronave, deletar_aeronave
 )
 
-def menu_clientes():
+
+def menu():
+    print("\n===== MENU PRINCIPAL =====")
+    print("1 - Criar cliente")
+    print("2 - Listar clientes")
+    print("3 - Consultar cliente")
+    print("4 - Atualizar cliente")
+    print("5 - Remover cliente")
+    print("--------------------------")
+    print("6 - Criar aeronave")
+    print("7 - Listar aeronaves")
+    print("8 - Consultar aeronave")
+    print("9 - Atualizar aeronave")
+    print("10 - Remover aeronave")
+    print("0 - Sair")
+
+
+def main():
     while True:
-        print("\n=== MENU CLIENTES ===")
-        print("1 - inserir cliente")
-        print("2 - Listar clientes")
-        print("3 - Buscar cliente")
-        print("4 - Atualizar cliente")
-        print("5 - Deletar cliente")
-        print("0 - Voltar")
+        menu()
+        opcao = input("Escolha uma opção: ")
 
-        op = input("Escolha: ")
+        # ======================
+        # CLIENTES
+        # ======================
 
-        if op == "1":
-            criar_cliente()
-        elif op == "2":
-            listar_clientes()
-        elif op == "3":
-            buscar_cliente()
-        elif op == "4":
-            atualizar_cliente()
-        elif op == "5":
-            deletar_cliente()
-        elif op == "0":
-            break
-        else:
-            print("Opção inválida!")
+        if opcao == "1":
+            nome = input("Nome: ")
+            email = input("Email: ")
 
-def menu_aeronaves():
-    while True:
-        print("\n=== MENU AERONAVES ===")
-        print("1 - inserir aeronave")
-        print("2 - Listar aeronaves")
-        print("3 - Buscar aeronave")
-        print("4 - Atualizar aeronave")
-        print("5 - Deletar aeronave")
-        print("0 - Voltar")
+            code, obj = criar_cliente(nome, email)
+            if code == 201:
+                print("Cliente criado com sucesso:", obj)
+            else:
+                print("Erro:", obj)
 
-        op = input("Escolha: ")
+        elif opcao == "2":
+            code, obj = listar_clientes()
+            if code == 200:
+                print("Lista de clientes:")
+                for id_c, dados in obj.items():
+                    print(f"ID: {id_c} | Nome: {dados['nome']} | Email: {dados['email']}")
+            else:
+                print("Erro:", obj)
 
-        if op == "1":
-            criar_aeronave()
-        elif op == "2":
-            listar_aeronaves()
-        elif op == "3":
-            buscar_aeronave()
-        elif op == "4":
-            atualizar_aeronave()
-        elif op == "5":
-            deletar_aeronave()
-        elif op == "0":
-            break
-        else:
-            print("Opção inválida!")
+        elif opcao == "3":
+            id_c = input("ID do cliente: ")
+            code, obj = buscar_cliente(id_c)
 
-def menu_principal():
-    while True:
-        print("\n=== Aeroporto arround the world ===")
-        print("1 - Gerir Clientes")
-        print("2 - Gerir Aeronaves")
-        print("0 - Sair")
+            if code == 200:
+                print(f"Cliente {id_c}:")
+                print(obj)
+            else:
+                print("Erro:", obj)
 
-        op = input("Escolha: ")
+        elif opcao == "4":
+            id_c = input("ID do cliente: ")
 
-        if op == "1":
-            menu_clientes()
-        elif op == "2":
-            menu_aeronaves()
-        elif op == "0":
+            nome = input("Novo nome (enter para manter): ")
+            email = input("Novo email (enter para manter): ")
+
+            code, obj = atualizar_cliente(
+                id_c,
+                nome if nome else None,
+                email if email else None
+            )
+
+            if code == 200:
+                print("Cliente atualizado:", obj)
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "5":
+            id_c = input("ID do cliente: ")
+            code, obj = deletar_cliente(id_c)
+
+            if code == 200:
+                print("Cliente removido:", obj)
+            else:
+                print("Erro:", obj)
+
+        # ======================
+        # AERONAVES
+        # ======================
+
+        elif opcao == "6":
+            modelo = input("Modelo: ")
+            capacidade = input("Capacidade: ")
+
+            code, obj = criar_aeronave(modelo, capacidade)
+            if code == 201:
+                print("Aeronave criada:", obj)
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "7":
+            code, obj = listar_aeronaves()
+            if code == 200:
+                print("Lista de aeronaves:")
+                for id_a, dados in obj.items():
+                    print(f"ID: {id_a} | Modelo: {dados['modelo']} | Capacidade: {dados['capacidade']}")
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "8":
+            id_a = input("ID da aeronave: ")
+            code, obj = buscar_aeronave(id_a)
+
+            if code == 200:
+                print(f"Aeronave {id_a}:")
+                print(obj)
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "9":
+            id_a = input("ID da aeronave: ")
+
+            modelo = input("Novo modelo (enter para manter): ")
+            capacidade = input("Nova capacidade (enter para manter): ")
+
+            code, obj = atualizar_aeronave(
+                id_a,
+                modelo if modelo else None,
+                capacidade if capacidade else None
+            )
+
+            if code == 200:
+                print("Aeronave atualizada:", obj)
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "10":
+            id_a = input("ID da aeronave: ")
+            code, obj = deletar_aeronave(id_a)
+
+            if code == 200:
+                print("Aeronave removida:", obj)
+            else:
+                print("Erro:", obj)
+
+        elif opcao == "0":
             print("A sair...")
             break
+
         else:
-            print("Opção inválida!")
+            print("Opção inválida.")
 
 
-menu_principal()
+if __name__ == "__main__":
+    main()
