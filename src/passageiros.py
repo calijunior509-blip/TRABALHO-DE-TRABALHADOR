@@ -1,31 +1,41 @@
-# ==============================
-# cliente.py
-# CRUD simples para entidade Cliente
-# SEM utilização de classes
-# armazenamento em lista
-# validações feitas aqui (não no main)
-# ==============================
-
 clientes = []
 
 
-# gerar id incremental
 def gerar_id():
-    # gera um ID incremental com base na lista existente
-
     if not clientes:
         return 1
-
     return clientes[-1]["id"] + 1
+
+
+def validar_email(email):
+    return "@" in email and "." in email
+
+
+def validar_telefone(telefone):
+    return telefone.isdigit()
+
+
+def validar_nif(nif):
+    return nif.isdigit() and len(nif) == 9
 
 
 # CREATE
 def criar_cliente(nome, data_nascimento, email, telefone, nacionalidade, morada, nif):
+
+    if not validar_email(email):
+        return 500, "Email inválido"
+
+    if not validar_telefone(telefone):
+        return 500, "Telefone inválido"
+
+    if not validar_nif(nif):
+        return 500, "NIF inválido"
+
     cliente = {
         "id": gerar_id(),
-        "nome": nome,
+        "nome": nome.strip(),
         "data_nascimento": data_nascimento,
-        "email": email,
+        "email": email.strip(),
         "telefone": telefone,
         "nacionalidade": nacionalidade,
         "morada": morada,
@@ -37,15 +47,11 @@ def criar_cliente(nome, data_nascimento, email, telefone, nacionalidade, morada,
     return 201, cliente
 
 
-# READ (listar todos)
+# READ
 def listar_clientes():
-    if not clientes:
-        return 404, "Nenhum cliente cadastrado."
-
     return 200, clientes
 
 
-# READ (consultar por ID)
 def buscar_cliente(id_cliente):
     for c in clientes:
         if c["id"] == id_cliente:
@@ -59,17 +65,21 @@ def atualizar_cliente(id_cliente, nome=None, email=None, telefone=None, morada=N
     for c in clientes:
         if c["id"] == id_cliente:
 
-            if nome:
-                c["nome"] = nome
+            if nome and nome.strip():
+                c["nome"] = nome.strip()
 
             if email:
-                c["email"] = email
+                if not validar_email(email):
+                    return 500, "Email inválido"
+                c["email"] = email.strip()
 
             if telefone:
+                if not validar_telefone(telefone):
+                    return 500, "Telefone inválido"
                 c["telefone"] = telefone
 
-            if morada:
-                c["morada"] = morada
+            if morada and morada.strip():
+                c["morada"] = morada.strip()
 
             return 200, c
 
