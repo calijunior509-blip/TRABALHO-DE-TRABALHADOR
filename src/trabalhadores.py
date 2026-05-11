@@ -1,17 +1,6 @@
-from utils import validar_data
+from utils import validar_data, validar_cargo, gerar_id_trabalhadores
 
 trabalhadores = []
-
-
-def gerar_id():
-    if not trabalhadores:
-        return 1
-    return trabalhadores[-1]["id"] + 1
-
-
-def validar_cargo(cargo):
-    cargos_validos = ["piloto", "copiloto", "assistente de bordo"]
-    return cargo.lower().strip() in cargos_validos
 
 
 def criar_trabalhador(nome, data_nascimento, nacionalidade, cargo, idade):
@@ -29,7 +18,7 @@ def criar_trabalhador(nome, data_nascimento, nacionalidade, cargo, idade):
         return 500, "Idade inválida"
 
     trabalhador = {
-        "id": gerar_id(),
+        "id": gerar_id_trabalhadores(trabalhadores),
         "nome": nome.strip(),
         "data_nascimento": data_nascimento,
         "nacionalidade": nacionalidade,

@@ -1,22 +1,11 @@
+from utils import (
+    validar_email,
+    validar_telefone,
+    validar_nif,
+    gerar_id_clientes
+)
+
 clientes = []
-
-
-def gerar_id():
-    if not clientes:
-        return 1
-    return clientes[-1]["id"] + 1
-
-
-def validar_email(email):
-    return "@" in email and "." in email
-
-
-def validar_telefone(telefone):
-    return telefone.isdigit()
-
-
-def validar_nif(nif):
-    return nif.isdigit() and len(nif) == 9
 
 
 # CREATE
@@ -32,7 +21,7 @@ def criar_cliente(nome, data_nascimento, email, telefone, nacionalidade, morada,
         return 500, "NIF inválido"
 
     cliente = {
-        "id": gerar_id(),
+        "id": gerar_id_clientes(clientes),
         "nome": nome.strip(),
         "data_nascimento": data_nascimento,
         "email": email.strip(),
