@@ -1,85 +1,182 @@
-# TRABALHO-DE-TRABALHADOR
+# README — viagem.pay ✈️
 
+## Descrição
 
+O **viagem.pay** é um sistema de gestão de viagens aéreas feito em Python no terminal.
 
+O projeto permite:
 
-Sistema de Gestão de Companhia Aérea (CRUD)
+* Gestão de passageiros
+* Gestão de aeronaves
+* Gestão de trabalhadores
+* Gestão de bilhetes
+* Reserva de lugares
+* Validação de dados
+* Visualização de lugares ocupados
 
-## 📌 Descrição
-
-Este projeto consiste num sistema simples desenvolvido em **Python**, que permite gerir:
-👤 Clientes (passageiros)
-✈️ Aeronaves
-
-O sistema utiliza **dicionários e listas** para armazenar os dados e implementa operações completas de **CRUD (Create, Read, Update, Delete)**.
+Tudo funciona através de um menu interativo no terminal.
 
 ---
 
-## 🧩 Funcionalidades
+# Estrutura do Projeto
 
-### 👤 Clientes
+```bash
+viagem.pay/
+│
+├── main.py
+├── passageiros.py
+├── aeronaves.py
+├── trabalhadores.py
+├── bilhetes.py
+├── utils.py
+└── README.md
+```
 
-* Criar cliente
-* Listar clientes
-* Buscar cliente por ID
-* Atualizar dados
-* Remover cliente
+---
 
-### ✈️ Aeronaves
+# Funcionalidades
+
+## Passageiros
+
+* Criar passageiro
+* Listar passageiros
+* Buscar passageiro
+* Atualizar passageiro
+* Remover passageiro
+
+---
+
+## Aeronaves
 
 * Criar aeronave
 * Listar aeronaves
-* Buscar aeronave por ID
-* Atualizar dados
+* Buscar aeronave
+* Atualizar aeronave
 * Remover aeronave
 
 ---
 
-## 📁 Estrutura do Projeto
+## Trabalhadores
 
-```
-clientes.py     # CRUD de clientes
-aeronaves.py    # CRUD de aeronaves
-menu.py         # Menu principal do sistema
+* Criar trabalhador
+* Listar trabalhadores
+* Buscar trabalhador
+* Atualizar trabalhador
+* Remover trabalhador
+
+### Cargos válidos
+
+* piloto
+* copiloto
+* assistente de bordo
+
+---
+
+## Bilhetes
+
+* Criar bilhete
+* Listar bilhetes
+* Buscar bilhete
+* Remover bilhete
+
+### Validações
+
+O sistema valida:
+
+* Existência do passageiro
+* Existência da aeronave
+* Lugares repetidos
+* Capacidade da aeronave
+* Lugares inválidos
+
+---
+
+# Sistema de Lugares
+
+Ao criar um bilhete é possível visualizar os lugares disponíveis da aeronave.
+
+Exemplo:
+
+```bash
+[01] [02] [03] [ X ] [05] [06]
+[07] [08] [09] [10] [ X ] [12]
+
+X = ocupado
 ```
 
 ---
 
-## ▶️ Como Executar
+# Validações Implementadas
 
-1. Certifique-se de que tem o Python instalado
-2. Coloque todos os ficheiros na mesma pasta
-3. Execute o ficheiro principal:
+## Datas
 
-```
-python menu.py
+Formato obrigatório:
+
+```bash
+YYYY-MM-DD
 ```
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Email
+
+Verifica:
+
+```bash
+@
+.
+```
+
+---
+
+## Telefone
+
+Aceita apenas números.
+
+---
+
+## NIF
+
+O NIF deve possuir:
+
+* 9 dígitos
+* Apenas números
+
+---
+
+# Tecnologias Utilizadas
 
 * Python 3
-* Estruturas de dados (listas e dicionários)
-
----
-
-## 💡 Conceitos Aplicados
-
+* Estruturas de dados com listas e dicionários
 * Programação modular
-* Funções
-* Estruturas de controlo
-* CRUD
+
+---
+
+# Objetivo do Projeto
+
+Este projeto foi desenvolvido com objetivo educativo para praticar:
+
+* CRUD em Python
+* Modularização
+* Validações
 * Organização de código
+* Manipulação de listas e dicionários
+* Menus interativos
 
 ---
 
-## 🚀 Possíveis Melhorias
+# Melhorias Futuras
 
-* 🔗 Sistema de reservas (ligar clientes a aeronaves)
+* Persistência com ficheiros JSON
+* Integração com base de dados
+* Interface gráfica
+* Login de administrador
+* Sistema de voos
+* Datas e horários reais
+* API REST
 
 ---
 
-## 👨‍💻 Autor
+# Autor
 
-Projeto desenvolvido para fins educativos.
+Carlos Silva(e chatGPT)
