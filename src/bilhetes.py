@@ -1,24 +1,25 @@
-from passageiros import buscar_cliente
+# ==============================
+# bilhetes.py
+# ==============================
+
+from passageiros import buscar_passageiro
 from aeronaves import buscar_aeronave
+from utils import gerar_id
 
 bilhetes = []
 
 
-def gerar_id():
-    if not bilhetes:
-        return 1
-    return bilhetes[-1]["id"] + 1
-
-
 def lugar_ocupado(id_aeronave, lugar):
+
     for b in bilhetes:
         if b["id_aeronave"] == id_aeronave and b["lugar"] == lugar:
             return True
+
     return False
 
 
 def criar_bilhete(
-    id_cliente,
+    id_passageiro,
     id_aeronave,
     origem,
     destino,
@@ -27,38 +28,34 @@ def criar_bilhete(
     lugar
 ):
 
-    # validar cliente
-    code, cliente = buscar_cliente(id_cliente)
-    if code != 200:
-        return 404, "Cliente não encontrado"
+    code, passageiro = buscar_passageiro(id_passageiro)
 
-    # validar aeronave
+    if code != 200:
+        return 404, "Passageiro não encontrado"
+
     code, aeronave = buscar_aeronave(id_aeronave)
+
     if code != 200:
         return 404, "Aeronave não encontrada"
 
-    # validar tipo lugar
     try:
         lugar = int(lugar)
     except:
         return 500, "Lugar inválido"
 
-    # validar lugar válido
     if lugar <= 0:
         return 500, "Lugar inválido"
 
-    # validar capacidade
     if lugar > aeronave["lotacao"]:
-        return 500, "Lugar excede capacidade do avião"
+        return 500, "Lugar excede capacidade"
 
-    # validar ocupado
     if lugar_ocupado(id_aeronave, lugar):
-        return 500, "Lugar já ocupado"
+        return 500, "Lugar ocupado"
 
     bilhete = {
-        "id": gerar_id(),
-        "cliente": cliente["nome"],
-        "id_cliente": id_cliente,
+        "id": gerar_id(bilhetes),
+        "passageiro": passageiro["nome"],
+        "id_passageiro": id_passageiro,
         "id_aeronave": id_aeronave,
         "origem": origem,
         "destino": destino,
@@ -77,6 +74,7 @@ def listar_bilhetes():
 
 
 def buscar_bilhete(id_bilhete):
+
     for b in bilhetes:
         if b["id"] == id_bilhete:
             return 200, b
@@ -85,9 +83,10 @@ def buscar_bilhete(id_bilhete):
 
 
 def deletar_bilhete(id_bilhete):
+
     for b in bilhetes:
         if b["id"] == id_bilhete:
             bilhetes.remove(b)
-            return 200, id_bilhete
+            return 200, "Bilhete removido"
 
     return 404, "Bilhete não encontrado"
