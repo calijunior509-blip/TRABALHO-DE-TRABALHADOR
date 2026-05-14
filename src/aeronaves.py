@@ -3,8 +3,9 @@
 # ==============================
 
 from utils import gerar_id
+from basididadus import carregar, guardar
 
-aeronaves = []
+aeronaves = carregar("aeronaves.json")
 
 
 def criar_aeronave(
@@ -41,6 +42,8 @@ def criar_aeronave(
 
     aeronaves.append(aeronave)
 
+    guardar("aeronaves.json", aeronaves)
+
     return 201, aeronave
 
 
@@ -76,15 +79,19 @@ def atualizar_aeronave(
             if lotacao:
                 try:
                     lotacao = int(lotacao)
+
                     if lotacao <= 0:
                         return 500, "Lotação inválida"
 
                     a["lotacao"] = lotacao
+
                 except:
                     return 500, "Lotação inválida"
 
             if tipo:
                 a["tipo"] = tipo
+
+            guardar("aeronaves.json", aeronaves)
 
             return 200, a
 
@@ -94,7 +101,11 @@ def atualizar_aeronave(
 def deletar_aeronave(id_aeronave):
     for a in aeronaves:
         if a["id"] == id_aeronave:
+
             aeronaves.remove(a)
+
+            guardar("aeronaves.json", aeronaves)
+
             return 200, "Aeronave removida"
 
     return 404, "Aeronave não encontrada"

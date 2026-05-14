@@ -3,8 +3,9 @@
 # ==============================
 
 from utils import validar_data, validar_cargo, gerar_id
+from basididadus import carregar, guardar
 
-trabalhadores = []
+trabalhadores = carregar("trabalhadores.json")
 
 
 def criar_trabalhador(
@@ -41,6 +42,8 @@ def criar_trabalhador(
 
     trabalhadores.append(trabalhador)
 
+    guardar("trabalhadores.json", trabalhadores)
+
     return 201, trabalhador
 
 
@@ -71,6 +74,8 @@ def atualizar_trabalhador(id_trabalhador, nome=None, cargo=None):
 
                 t["cargo"] = cargo.lower()
 
+            guardar("trabalhadores.json", trabalhadores)
+
             return 200, t
 
     return 404, "Trabalhador não encontrado"
@@ -79,7 +84,11 @@ def atualizar_trabalhador(id_trabalhador, nome=None, cargo=None):
 def deletar_trabalhador(id_trabalhador):
     for t in trabalhadores:
         if t["id"] == id_trabalhador:
+
             trabalhadores.remove(t)
+
+            guardar("trabalhadores.json", trabalhadores)
+
             return 200, "Trabalhador removido"
 
     return 404, "Trabalhador não encontrado"

@@ -5,8 +5,9 @@
 from passageiros import buscar_passageiro
 from aeronaves import buscar_aeronave
 from utils import gerar_id
+from basididadus import carregar, guardar
 
-bilhetes = []
+bilhetes = carregar("bilhetes.json")
 
 
 def lugar_ocupado(id_aeronave, lugar):
@@ -66,6 +67,8 @@ def criar_bilhete(
 
     bilhetes.append(bilhete)
 
+    guardar("bilhetes.json", bilhetes)
+
     return 201, bilhete
 
 
@@ -86,7 +89,11 @@ def deletar_bilhete(id_bilhete):
 
     for b in bilhetes:
         if b["id"] == id_bilhete:
+
             bilhetes.remove(b)
+
+            guardar("bilhetes.json", bilhetes)
+
             return 200, "Bilhete removido"
 
     return 404, "Bilhete não encontrado"

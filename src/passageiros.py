@@ -10,7 +10,9 @@ from utils import (
     gerar_id
 )
 
-passageiros = []
+from basididadus import carregar, guardar
+
+passageiros = carregar("passageiros.json")
 
 
 def criar_passageiro(
@@ -47,6 +49,8 @@ def criar_passageiro(
     }
 
     passageiros.append(passageiro)
+
+    guardar("passageiros.json", passageiros)
 
     return 201, passageiro
 
@@ -90,6 +94,8 @@ def atualizar_passageiro(
             if morada:
                 p["morada"] = morada
 
+            guardar("passageiros.json", passageiros)
+
             return 200, p
 
     return 404, "Passageiro não encontrado"
@@ -99,6 +105,9 @@ def deletar_passageiro(id_passageiro):
     for p in passageiros:
         if p["id"] == id_passageiro:
             passageiros.remove(p)
+
+            guardar("passageiros.json", passageiros)
+
             return 200, "Passageiro removido"
 
     return 404, "Passageiro não encontrado"
