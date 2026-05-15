@@ -73,10 +73,12 @@ def criar_bilhete(
 
 
 def listar_bilhetes():
+    bilhetes = carregar("bilhetes.json")
     return 200, bilhetes
 
 
 def buscar_bilhete(id_bilhete):
+    bilhetes = carregar("bilhetes.json")
 
     for b in bilhetes:
         if b["id"] == id_bilhete:
@@ -86,6 +88,7 @@ def buscar_bilhete(id_bilhete):
 
 
 def deletar_bilhete(id_bilhete):
+    bilhetes = carregar("bilhetes.json")
 
     for b in bilhetes:
         if b["id"] == id_bilhete:

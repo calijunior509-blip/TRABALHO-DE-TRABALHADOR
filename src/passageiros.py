@@ -12,8 +12,6 @@ from utils import (
 
 from basididadus import carregar, guardar
 
-passageiros = carregar("passageiros.json")
-
 
 def criar_passageiro(
     nome,
@@ -24,7 +22,7 @@ def criar_passageiro(
     morada,
     nif
 ):
-
+    passageiros = carregar("passageiros.json")
     if not validar_data(data_nascimento):
         return 500, "Data inválida"
 
@@ -56,10 +54,12 @@ def criar_passageiro(
 
 
 def listar_passageiros():
+    passageiros = carregar("passageiros.json")
     return 200, passageiros
 
 
 def buscar_passageiro(id_passageiro):
+    passageiros = carregar("passageiros.json")
     for p in passageiros:
         if p["id"] == id_passageiro:
             return 200, p
@@ -74,7 +74,7 @@ def atualizar_passageiro(
     telefone=None,
     morada=None
 ):
-
+    passageiros = carregar("passageiros.json")
     for p in passageiros:
         if p["id"] == id_passageiro:
 
@@ -95,19 +95,18 @@ def atualizar_passageiro(
                 p["morada"] = morada
 
             guardar("passageiros.json", passageiros)
-
             return 200, p
 
     return 404, "Passageiro não encontrado"
 
 
 def deletar_passageiro(id_passageiro):
+    passageiros = carregar("passageiros.json")
     for p in passageiros:
         if p["id"] == id_passageiro:
             passageiros.remove(p)
 
             guardar("passageiros.json", passageiros)
-
-            return 200, "Passageiro removido"
+            return 200, id_passageiro
 
     return 404, "Passageiro não encontrado"

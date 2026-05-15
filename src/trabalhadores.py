@@ -48,10 +48,12 @@ def criar_trabalhador(
 
 
 def listar_trabalhadores():
+    trabalhadores = carregar("trabalhadores.json")
     return 200, trabalhadores
 
 
 def buscar_trabalhador(id_trabalhador):
+    trabalhadores = carregar("trabalhadores.json")
     for t in trabalhadores:
         if t["id"] == id_trabalhador:
             return 200, t
@@ -60,6 +62,7 @@ def buscar_trabalhador(id_trabalhador):
 
 
 def atualizar_trabalhador(id_trabalhador, nome=None, cargo=None):
+    trabalhadores = carregar("trabalhadores.json")
 
     for t in trabalhadores:
         if t["id"] == id_trabalhador:
@@ -82,6 +85,7 @@ def atualizar_trabalhador(id_trabalhador, nome=None, cargo=None):
 
 
 def deletar_trabalhador(id_trabalhador):
+    trabalhadores = carregar("trabalhadores.json")
     for t in trabalhadores:
         if t["id"] == id_trabalhador:
 

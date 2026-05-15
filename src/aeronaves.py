@@ -48,10 +48,12 @@ def criar_aeronave(
 
 
 def listar_aeronaves():
+    aeronaves = carregar("aeronaves.json")
     return 200, aeronaves
 
 
 def buscar_aeronave(id_aeronave):
+    aeronaves = carregar("aeronaves.json")
     for a in aeronaves:
         if a["id"] == id_aeronave:
             return 200, a
@@ -99,6 +101,7 @@ def atualizar_aeronave(
 
 
 def deletar_aeronave(id_aeronave):
+    aeronaves = carregar("aeronaves.json")
     for a in aeronaves:
         if a["id"] == id_aeronave:
 
