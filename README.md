@@ -1,85 +1,87 @@
-# TRABALHO-DE-TRABALHADOR
+# Sistema de Gestão de Aeroporto ✈️
 
+Sistema desenvolvido em Python para gestão de:
 
+- Passageiros
+- Aeronaves
+- Trabalhadores
+- Bilhetes
 
-
-Sistema de Gestão de Companhia Aérea (CRUD)
-
-## 📌 Descrição
-
-Este projeto consiste num sistema simples desenvolvido em **Python**, que permite gerir:
-👤 Clientes (passageiros)
-✈️ Aeronaves
-
-O sistema utiliza **dicionários e listas** para armazenar os dados e implementa operações completas de **CRUD (Create, Read, Update, Delete)**.
+O projeto funciona em terminal/console e possui persistência de dados em arquivos JSON.
 
 ---
 
-## 🧩 Funcionalidades
+# Funcionalidades
 
-### 👤 Clientes
+## Passageiros
 
-* Criar cliente
-* Listar clientes
-* Buscar cliente por ID
-* Atualizar dados
-* Remover cliente
-
-### ✈️ Aeronaves
-
-* Criar aeronave
-* Listar aeronaves
-* Buscar aeronave por ID
-* Atualizar dados
-* Remover aeronave
+- Criar passageiro
+- Listar passageiros
+- Buscar passageiro
+- Atualizar passageiro
+- Remover passageiro
 
 ---
 
-## 📁 Estrutura do Projeto
+## Aeronaves
 
-```
-clientes.py     # CRUD de clientes
-aeronaves.py    # CRUD de aeronaves
-menu.py         # Menu principal do sistema
-```
-
----
-
-## ▶️ Como Executar
-
-1. Certifique-se de que tem o Python instalado
-2. Coloque todos os ficheiros na mesma pasta
-3. Execute o ficheiro principal:
-
-```
-python menu.py
-```
+- Criar aeronave
+- Listar aeronaves
+- Buscar aeronave
+- Atualizar aeronave
+- Remover aeronave
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Trabalhadores
 
-* Python 3
-* Estruturas de dados (listas e dicionários)
-
----
-
-## 💡 Conceitos Aplicados
-
-* Programação modular
-* Funções
-* Estruturas de controlo
-* CRUD
-* Organização de código
+- Criar trabalhador
+- Listar trabalhadores
+- Buscar trabalhador
+- Atualizar trabalhador
+- Remover trabalhador
 
 ---
 
-## 🚀 Possíveis Melhorias
+## Bilhetes
 
-* 🔗 Sistema de reservas (ligar clientes a aeronaves)
+- Criar bilhete
+- Listar bilhetes
+- Buscar bilhete
+- Remover bilhete
+- Ver lugares ocupados da aeronave
 
 ---
 
-## 👨‍💻 Autor
+# Persistência de Dados
 
-Projeto desenvolvido para fins educativos.
+O sistema utiliza arquivos `.json` para guardar os dados automaticamente.
+
+Arquivos criados:
+
+- `passageiros.json`
+- `aeronaves.json`
+- `trabalhadores.json`
+- `bilhetes.json`
+
+Os dados permanecem guardados mesmo após fechar o programa.
+
+---
+
+# Estrutura do Projeto
+
+```bash
+projeto/
+│
+├── main.py
+├── passageiros.py
+├── aeronaves.py
+├── trabalhadores.py
+├── bilhetes.py
+├── utils.py
+├── database.py
+│
+├── passageiros.json
+├── aeronaves.json
+├── trabalhadores.json
+└── bilhetes.json

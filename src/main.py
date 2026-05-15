@@ -1,165 +1,264 @@
 # ==============================
-# aeronave.py
-# CRUD simples para entidade Aeronave
-# SEM utilização de classes
-# armazenamento em lista
-# validações feitas aqui (não no main)
+# main.py
 # ==============================
 
-aeronaves = []
+from passageiros import *
+from aeronaves import *
+from trabalhadores import *
+from bilhetes import *
 
 
-# gerar id incremental
-def gerar_id():
-    # gera um ID incremental com base na lista existente
+def mostrar_lugares(id_aeronave, bilhetes, total=30):
 
-    if not aeronaves:
-        return 1
-    return aeronaves[-1]["id"] + 1
+    print("\n===== LUGARES =====")
 
-    return aeronaves[-1]["id"] + 1
+    ocupados = []
 
-# CREATE - Cadastrar aeronave
-def criar_aeronave():
-    print("\n=== Cadastrar Aeronave ===")
+    for b in bilhetes:
+        if b["id_aeronave"] == id_aeronave:
+            ocupados.append(b["lugar"])
 
-# CREATE
-def criar_aeronave(nome, modelo, lotacao, data_construcao, data_estreia, construtora, tipo, num_motores):
-    aeronave = {
-        "id": gerar_id(),
-        "nome": input("Nome: "),
-        "modelo": input("Modelo: "),
-        "lotacao": int(input("Lotação: ")),
-        "data_construcao": input("Data de Construção: "),
-        "data_estreia": input("Data de Estreia: "),
-        "construtora": input("Construtora: "),
-        "tipo": input("Tipo: "),
-        "num_motores": int(input("Número de Motores: "))
-        "nome": nome,
-        "modelo": modelo,
-        "lotacao": lotacao,
-        "data_construcao": data_construcao,
-        "data_estreia": data_estreia,
-        "construtora": construtora,
-        "tipo": tipo,
-        "num_motores": num_motores
-    }
+    for i in range(1, total + 1):
 
-    aeronaves.append(aeronave)
-    print(f"\n✅ Aeronave criada com ID {aeronave['id']}")
+        if i in ocupados:
+            print("[ X ]", end=" ")
+        else:
+            print(f"[{i:02}]", end=" ")
 
-    return 201, aeronave
+        if i % 6 == 0:
+            print()
 
-# READ - Listar todas
-def listar_aeronaves():
-    print("\n=== Lista de Aeronaves ===")
-
-# READ (listar todas)
-def listar_aeronaves():
-    if not aeronaves:
-        print("Nenhuma aeronave cadastrada.")
-        return
-        return 404, "Nenhuma aeronave cadastrada."
-
-    return 200, aeronaves
+    print()
 
 
-# READ (consultar por ID)
-def buscar_aeronave(id_aeronave):
-    for a in aeronaves:
-        if a["id"] == id_aeronave:
-            return 200, a
+def menu():
 
-    return 404, "Aeronave não encontrada."
-
-
-# UPDATE
-def atualizar_aeronave(id_aeronave, nome=None, modelo=None, lotacao=None, tipo=None):
-    for a in aeronaves:
-        print("\n-------------------")
-        print(f"Nome: {a.get('nome', 'N/A')}")
-        print(f"tipo: {a.get('tipo', 'N/A')}")
-
-
-# READ - Buscar por ID
-def buscar_aeronave():
-    try:
-        id_busca = int(input("Digite o ID: "))
-        for a in aeronaves:
-            if a["id"] == id_busca:
-                print("\nAeronave encontrada:")
-                for chave, valor in a.items():
-                    print(f"{chave.capitalize()}: {valor}")
-                return a
-        print("❌ Aeronave não encontrada.")
-    except ValueError:
-        print("ID inválido.")
+    print("\n===== MENU =====")
+    print("1 - Criar passageiro")
+    print("2 - Listar passageiros")
+    print("3 - Buscar passageiro")
+    print("4 - Atualizar passageiro")
+    print("5 - Remover passageiro")
+    print("-------------------")
+    print("6 - Criar aeronave")
+    print("7 - Listar aeronaves")
+    print("8 - Buscar aeronave")
+    print("9 - Atualizar aeronave")
+    print("10 - Remover aeronave")
+    print("-------------------")
+    print("11 - Criar trabalhador")
+    print("12 - Listar trabalhadores")
+    print("13 - Buscar trabalhador")
+    print("14 - Atualizar trabalhador")
+    print("15 - Remover trabalhador")
+    print("-------------------")
+    print("16 - Criar bilhete")
+    print("17 - Listar bilhetes")
+    print("18 - Buscar bilhete")
+    print("19 - Remover bilhete")
+    print("0 - Sair")
 
 
-# UPDATE - Editar aeronave
-def atualizar_aeronave():
-    print("\n=== Atualizar Aeronave ===")
-    aeronave = buscar_aeronave()
+while True:
 
-    if aeronave:
-        print("\nDeixe vazio para manter o valor atual.\n")
+    menu()
 
-        novo_nome = input(f"Nome ({aeronave['nome']}): ")
-        if novo_nome:
-            aeronave["nome"] = novo_nome
+    opcao = input("Opção: ")
 
-        novo_modelo = input(f"Modelo ({aeronave['modelo']}): ")
-        if novo_modelo:
-            aeronave["modelo"] = novo_modelo
+    # PASSAGEIROS
 
-        nova_lotacao = input(f"Lotação ({aeronave['lotacao']}): ")
-        if nova_lotacao:
-            aeronave["lotacao"] = int(nova_lotacao)
+    if opcao == "1":
 
-        novo_tipo = input(f"Tipo ({aeronave['tipo']}): ")
-        if novo_tipo:
-            aeronave["tipo"] = novo_tipo
+        code, obj = criar_passageiro(
+            input("Nome: "),
+            input("Data nascimento: "),
+            input("Email: "),
+            input("Telefone: "),
+            input("Nacionalidade: "),
+            input("Morada: "),
+            input("NIF: ")
+        )
 
-        print("✅ Aeronave atualizada com sucesso!")
+        print(obj)
 
+    elif opcao == "2":
 
-# DELETE - Remover aeronave
-def deletar_aeronave():
-    print("\n=== Remover Aeronave ===")
-    try:
-        id_busca = int(input("Digite o ID: "))
-        for a in aeronaves:
-            if a["id"] == id_busca:
-                aeronaves.remove(a)
-                print("🗑️ Aeronave removida com sucesso!")
-                return
-        print("❌ Aeronave não encontrada.")
-    except ValueError:
-        print("ID inválido.")
-        if a["id"] == id_aeronave:
+        code, obj = listar_passageiros()
+        print(obj)
 
-            if nome:
-                a["nome"] = nome
+    elif opcao == "3":
 
-            if modelo:
-                a["modelo"] = modelo
+        code, obj = buscar_passageiro(
+            int(input("ID: "))
+        )
 
-            if lotacao:
-                a["lotacao"] = lotacao
+        print(obj)
 
-            if tipo:
-                a["tipo"] = tipo
+    elif opcao == "4":
 
-            return 200, a
+        code, obj = atualizar_passageiro(
+            int(input("ID: ")),
+            input("Novo nome: "),
+            input("Novo email: "),
+            input("Novo telefone: "),
+            input("Nova morada: ")
+        )
 
-    return 404, "Aeronave não encontrada."
+        print(obj)
 
+    elif opcao == "5":
 
-# DELETE
-def deletar_aeronave(id_aeronave):
-    for a in aeronaves:
-        if a["id"] == id_aeronave:
-            aeronaves.remove(a)
-            return 200, id_aeronave
+        code, obj = deletar_passageiro(
+            int(input("ID: "))
+        )
 
-    return 404, "Aeronave não encontrada."
+        print(obj)
+
+    # AERONAVES
+
+    elif opcao == "6":
+
+        code, obj = criar_aeronave(
+            input("Nome: "),
+            input("Modelo: "),
+            input("Lotação: "),
+            input("Data construção: "),
+            input("Data estreia: "),
+            input("Construtora: "),
+            input("Tipo: "),
+            input("Número motores: ")
+        )
+
+        print(obj)
+
+    elif opcao == "7":
+
+        code, obj = listar_aeronaves()
+        print(obj)
+
+    elif opcao == "8":
+
+        code, obj = buscar_aeronave(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    elif opcao == "9":
+
+        code, obj = atualizar_aeronave(
+            int(input("ID: ")),
+            input("Novo nome: "),
+            input("Novo modelo: "),
+            input("Nova lotação: "),
+            input("Novo tipo: ")
+        )
+
+        print(obj)
+
+    elif opcao == "10":
+
+        code, obj = deletar_aeronave(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    # TRABALHADORES
+
+    elif opcao == "11":
+
+        code, obj = criar_trabalhador(
+            input("Nome: "),
+            input("Data nascimento: "),
+            input("Nacionalidade: "),
+            input("Cargo: "),
+            input("Idade: ")
+        )
+
+        print(obj)
+
+    elif opcao == "12":
+
+        code, obj = listar_trabalhadores()
+        print(obj)
+
+    elif opcao == "13":
+
+        code, obj = buscar_trabalhador(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    elif opcao == "14":
+
+        code, obj = atualizar_trabalhador(
+            int(input("ID: ")),
+            input("Novo nome: "),
+            input("Novo cargo: ")
+        )
+
+        print(obj)
+
+    elif opcao == "15":
+
+        code, obj = deletar_trabalhador(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    # BILHETES
+
+    elif opcao == "16":
+
+        id_aeronave = int(input("ID aeronave: "))
+
+        ver = input("Ver lugares? (s/n): ")
+
+        if ver.lower() == "s":
+
+            code, lista = listar_bilhetes()
+
+            if code == 200:
+                mostrar_lugares(id_aeronave, lista)
+
+        code, obj = criar_bilhete(
+            int(input("ID passageiro: ")),
+            id_aeronave,
+            input("Origem: "),
+            input("Destino: "),
+            input("Hora partida: "),
+            input("Hora chegada: "),
+            input("Lugar: ")
+        )
+
+        print(obj)
+
+    elif opcao == "17":
+
+        code, obj = listar_bilhetes()
+        print(obj)
+
+    elif opcao == "18":
+
+        code, obj = buscar_bilhete(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    elif opcao == "19":
+
+        code, obj = deletar_bilhete(
+            int(input("ID: "))
+        )
+
+        print(obj)
+
+    elif opcao == "0":
+        break
+
+    else:
+        print("Opção inválida")

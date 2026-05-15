@@ -1,39 +1,42 @@
 # ==============================
-# cliente.py
-# CRUD simples para entidade Cliente
-# SEM utilização de classes
-# armazenamento em lista
-# validações feitas aqui (não no main)
+# passageiros.py
 # ==============================
 
-clientes = []
+from utils import (
+    validar_data,
+    validar_email,
+    validar_telefone,
+    validar_nif,
+    gerar_id
+)
+
+from basididadus import carregar, guardar
 
 
-# gerar id incremental
-def gerar_id():
-    # gera um ID incremental com base na lista existente
+def criar_passageiro(
+    nome,
+    data_nascimento,
+    email,
+    telefone,
+    nacionalidade,
+    morada,
+    nif
+):
+    passageiros = carregar("passageiros.json")
+    if not validar_data(data_nascimento):
+        return 500, "Data inválida"
 
-    if not clientes:
-        return 1
-    return clientes[-1]["id"] + 1
+    if not validar_email(email):
+        return 500, "Email inválido"
 
-    return clientes[-1]["id"] + 1
+    if not validar_telefone(telefone):
+        return 500, "Telefone inválido"
 
-# CREATE - Criar cliente
-def criar_cliente():
-    print("\n=== Cadastrar Cliente ===")
+    if not validar_nif(nif):
+        return 500, "NIF inválido"
 
-# CREATE
-def criar_cliente(nome, data_nascimento, email, telefone, nacionalidade, morada, nif):
-    cliente = {
-        "id": gerar_id(),
-        "nome": input("Nome: "),
-        "data_nascimento": input("Data de Nascimento (dd/mm/aaaa): "),
-        "email": input("Email: "),
-        "telefone": input("Telefone: "),
-        "nacionalidade": input("Nacionalidade: "),
-        "morada": input("Morada: "),
-        "nif": input("NIF: ")
+    passageiro = {
+        "id": gerar_id(passageiros),
         "nome": nome,
         "data_nascimento": data_nascimento,
         "email": email,
@@ -43,121 +46,67 @@ def criar_cliente(nome, data_nascimento, email, telefone, nacionalidade, morada,
         "nif": nif
     }
 
-    clientes.append(cliente)
-    print(f"\n✅ Cliente criado com ID {cliente['id']}")
+    passageiros.append(passageiro)
 
-    return 201, cliente
+    guardar("passageiros.json", passageiros)
 
-# READ - Listar todos
-def listar_clientes():
-    print("\n=== Lista de Clientes ===")
-
-# READ (listar todos)
-def listar_clientes():
-    if not clientes:
-        print("Nenhum cliente cadastrado.")
-        return
-        return 404, "Nenhum cliente cadastrado."
-
-    return 200, clientes
+    return 201, passageiro
 
 
-# READ (consultar por ID)
-def buscar_cliente(id_cliente):
-    for c in clientes:
-        if c["id"] == id_cliente:
-            return 200, c
-
-    return 404, "Cliente não encontrado."
+def listar_passageiros():
+    passageiros = carregar("passageiros.json")
+    return 200, passageiros
 
 
-# UPDATE
-def atualizar_cliente(id_cliente, nome=None, email=None, telefone=None, morada=None):
-    for c in clientes:
-        print("\n-------------------")
-        print(f"Nome: {c.get('nome', 'N/A')}")
-        print(f"Data_nascimento: {c.get('data_nascimento', 'N/A')}")
+def buscar_passageiro(id_passageiro):
+    passageiros = carregar("passageiros.json")
+    for p in passageiros:
+        if p["id"] == id_passageiro:
+            return 200, p
+
+    return 404, "Passageiro não encontrado"
 
 
-# READ - Buscar por ID
-def buscar_cliente():
-    try:
-        id_busca = int(input("Digite o ID: "))
-        for c in clientes:
-            if c["id"] == id_busca:
-                print("\nCliente encontrado:")
-                for chave, valor in c.items():
-                    print(f"{chave.capitalize()}: {valor}")
-                return c
-        print("❌ Cliente não encontrado.")
-    except ValueError:
-        print("ID inválido.")
-
-
-# UPDATE - Atualizar cliente
-def atualizar_cliente():
-    print("\n=== Atualizar Cliente ===")
-    cliente = buscar_cliente()
-
-    if cliente:
-        print("\nDeixe vazio para manter o valor atual.\n")
-
-        novo_nome = input(f"Nome ({cliente['nome']}): ")
-        if novo_nome:
-            cliente["nome"] = novo_nome
-
-        novo_email = input(f"Email ({cliente['email']}): ")
-        if novo_email:
-            cliente["email"] = novo_email
-
-        novo_telefone = input(f"Telefone ({cliente['telefone']}): ")
-        if novo_telefone:
-            cliente["telefone"] = novo_telefone
-
-        nova_morada = input(f"Morada ({cliente['morada']}): ")
-        if nova_morada:
-            cliente["morada"] = nova_morada
-
-        print("✅ Cliente atualizado com sucesso!")
-
-
-# DELETE - Remover cliente
-def deletar_cliente():
-    print("\n=== Remover Cliente ===")
-    try:
-        id_busca = int(input("Digite o ID: "))
-        for c in clientes:
-            if c["id"] == id_busca:
-                clientes.remove(c)
-                print("🗑️ Cliente removido com sucesso!")
-                return
-        print("❌ Cliente não encontrado.")
-    except ValueError:
-        print("ID inválido.")
-        if c["id"] == id_cliente:
+def atualizar_passageiro(
+    id_passageiro,
+    nome=None,
+    email=None,
+    telefone=None,
+    morada=None
+):
+    passageiros = carregar("passageiros.json")
+    for p in passageiros:
+        if p["id"] == id_passageiro:
 
             if nome:
-                c["nome"] = nome
+                p["nome"] = nome
 
             if email:
-                c["email"] = email
+                if not validar_email(email):
+                    return 500, "Email inválido"
+                p["email"] = email
 
             if telefone:
-                c["telefone"] = telefone
+                if not validar_telefone(telefone):
+                    return 500, "Telefone inválido"
+                p["telefone"] = telefone
 
             if morada:
-                c["morada"] = morada
+                p["morada"] = morada
 
-            return 200, c
+            guardar("passageiros.json", passageiros)
+            return 200, p
 
-    return 404, "Cliente não encontrado."
+    return 404, "Passageiro não encontrado"
 
 
-# DELETE
-def deletar_cliente(id_cliente):
-    for c in clientes:
-        if c["id"] == id_cliente:
-            clientes.remove(c)
-            return 200, id_cliente
+def deletar_passageiro(id_passageiro):
+    passageiros = carregar("passageiros.json")
+    for p in passageiros:
+        if p["id"] == id_passageiro:
+            passageiros.remove(p)
 
-    return 404, "Cliente não encontrado."
+            guardar("passageiros.json", passageiros)
+            return 200, id_passageiro
+
+    return 404, "Passageiro não encontrado"
